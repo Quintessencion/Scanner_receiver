@@ -6,6 +6,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.graphics.Color
 import android.os.Build
 import android.os.Handler
@@ -17,14 +19,17 @@ import ru.prodsouz.pda.scanner.R
 class PDAScanIntentService : IntentService("PDAScanIntentService") {
 
     companion object {
-        const val ACTION_SEND_SCAN_DATA = "ru.prodsouz.pda.scanner.action.send"
-        const val EXTRA_DATA = "ru.prodsouz.pda.scanner.extra.scan.data"
+        const val ACTION_SCAN_DATA = "ru.prodsouz.pda.scanner.action.send"
+        const val SERVICE_EXTRA_DATA = "ru.prodsouz.pda.scanner.extra.scan.data"
+
+        const val ACTION_SEND_INTENT = "ru.prodsouz.pda.scanner.barcode.intent"
+        const val BARCODE_DATA = "BARCODE_DATA"
 
         @JvmStatic
         fun startService(context: Context, data: String) {
             val intent = Intent(context, PDAScanIntentService::class.java).apply {
-                action = ACTION_SEND_SCAN_DATA
-                putExtra(EXTRA_DATA, data)
+                action = ACTION_SCAN_DATA
+                putExtra(SERVICE_EXTRA_DATA, data)
             }
             context.startService(intent)
         }
@@ -34,46 +39,30 @@ class PDAScanIntentService : IntentService("PDAScanIntentService") {
 
     override fun onHandleIntent(intent: Intent?) {
         when (intent?.action) {
-            ACTION_SEND_SCAN_DATA -> {
-                val data = intent.getStringExtra(EXTRA_DATA)
+            ACTION_SCAN_DATA -> {
+                val data = intent.getStringExtra(SERVICE_EXTRA_DATA)
                 handleScanData(data)
             }
         }
     }
 
     private fun handleScanData(data: String) {
-        startForeground(FOREGROUND_ID, buildForegroundNotification())
+//        startForeground(FOREGROUND_ID, buildForegroundNotification())
 
-        Thread(Runnable {
-            while (true) {
-//                Thread.sleep(5000)
-                Handler(mainLooper).post {
-                    Toast.makeText(applicationContext, data, Toast.LENGTH_SHORT).show()
-                }
-                break
+        Handler(mainLooper).post {
+            val intent = Intent(ACTION_SEND_INTENT).apply { putExtra(BARCODE_DATA, data) }
+
+            val activities: List<ResolveInfo> = packageManager.queryIntentActivities(
+                intent,
+                PackageManager.MATCH_DEFAULT_ONLY
+            )
+            if (activities.isNotEmpty()) {
+                startActivity(intent)
+            } else {
+                Toast.makeText(applicationContext, getString(R.string.no_intent_activity), Toast.LENGTH_SHORT).show()
             }
-        }).start()
-
-//        var count1 = 50
-//        Executors.newSingleThreadScheduledExecutor().schedule({
-//            Handler(mainLooper).post {
-//                val toast = Toast.makeText(applicationContext, (--count1).toString() + "", Toast.LENGTH_SHORT)
-//                toast.show()
-//                Handler().postDelayed({ toast.cancel() }, 1000)
-//            }
-//        }, 2, TimeUnit.SECONDS)
-//
-//        var count2 = 100
-//        Timer().schedule(timerTask {
-//            Handler(mainLooper).post {
-//                val toast = Toast.makeText(applicationContext, (--count2).toString() + "", Toast.LENGTH_SHORT)
-//                toast.show()
-//                Handler().postDelayed({ toast.cancel() }, 1000)
-//            }
-//        }, 2000)
-//
-//
-//        Thread.sleep(10000)
+//            Toast.makeText(applicationContext, data, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun buildForegroundNotification(): Notification {

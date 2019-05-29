@@ -11,8 +11,7 @@
             android:theme="@style/AppTheme">
 
         <activity android:name=".ui.MainActivity"
-                  android:theme="@style/Theme.Transparent"
-        >
+                  android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
@@ -33,12 +32,6 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
-
-        <service
-                android:name=".service.PDAScanService"
-                android:enabled="true"
-                android:exported="false">
-        </service>
 
         <service
                 android:name=".service.PDAScanIntentService"
