@@ -6,14 +6,11 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
 import android.graphics.Color
 import android.os.Build
 import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
-import android.widget.Toast
 import ru.prodsouz.pda.scanner.R
 
 class PDAScanIntentService : IntentService("PDAScanIntentService") {
@@ -51,16 +48,17 @@ class PDAScanIntentService : IntentService("PDAScanIntentService") {
 
         Handler(mainLooper).post {
             val intent = Intent(ACTION_SEND_INTENT).apply { putExtra(BARCODE_DATA, data) }
+            sendBroadcast(intent)
 
-            val activities: List<ResolveInfo> = packageManager.queryIntentActivities(
-                intent,
-                PackageManager.MATCH_DEFAULT_ONLY
-            )
-            if (activities.isNotEmpty()) {
-                startActivity(intent)
-            } else {
-                Toast.makeText(applicationContext, getString(R.string.no_intent_activity), Toast.LENGTH_SHORT).show()
-            }
+//            val activities: List<ResolveInfo> = packageManager.queryIntentActivities(
+//                intent,
+//                PackageManager.MATCH_DEFAULT_ONLY
+//            )
+//            if (activities.isNotEmpty()) {
+//                startActivity(intent)
+//            } else {
+//                Toast.makeText(applicationContext, getString(R.string.no_intent_activity), Toast.LENGTH_SHORT).show()
+//            }
 //            Toast.makeText(applicationContext, data, Toast.LENGTH_SHORT).show()
         }
     }

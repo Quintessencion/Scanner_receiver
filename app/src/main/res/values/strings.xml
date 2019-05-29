@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Scanner receiver</string>
-
     <string name="register_title">Приемник сканера зарегистрирован</string>
     <string name="no_intent_activity">Отсутствует приложение для обработки интента</string>
 </resources>
