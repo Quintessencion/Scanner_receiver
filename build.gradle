@@ -13,7 +13,7 @@ buildscript {
 }
 
 ext {
-    appVersionName = '1.0.4'
+    appVersionName = '1.1.0'
     appVersionCode = 1
 
     javaVersion = JavaVersion.VERSION_1_8
