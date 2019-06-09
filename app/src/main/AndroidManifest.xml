@@ -10,8 +10,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.MainActivity"
-                  android:theme="@style/Theme.Transparent">
+        <activity
+                android:name="MainActivity"
+                android:launchMode="singleInstance"
+                android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
@@ -21,16 +23,27 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="DataActivity"
+                  android:launchMode="singleInstance"
+                  android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="ru.prodsouz.pda.scanner.getData"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
         <receiver
                 android:name=".receiver.PDAScanReceiver"
-                android:label="Receiver PDA Scanner"
-                android:exported="true"
                 android:enabled="true"
+                android:exported="true"
+                android:label="Receiver PDA Scanner"
                 android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter android:priority="100">
                 <action android:name="scan.rcv.enter"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
     </application>
+
 </manifest>
