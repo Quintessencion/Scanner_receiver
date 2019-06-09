@@ -15,6 +15,9 @@ android {
         versionCode appVersionCode
         versionName appVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "SCAN_ACTION", "\"scan.rcv.enter\""
+        buildConfigField "String", "SCAN_EXTRA_KEY", "\"codestr\""
     }
 
     signingConfigs {
@@ -38,8 +41,6 @@ android {
         }
 
         debug {
-//            applicationIdSuffix '.beta'
-
             resValue "string", "app_name", "Scanner receiver - Beta"
         }
     }
