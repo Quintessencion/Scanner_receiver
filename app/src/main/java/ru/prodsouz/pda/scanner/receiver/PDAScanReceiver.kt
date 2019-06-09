@@ -3,6 +3,7 @@ package ru.prodsouz.pda.scanner.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import ru.prodsouz.pda.scanner.BuildConfig
 import ru.prodsouz.pda.scanner.repository.SharedPrefs
 
 class PDAScanReceiver : BroadcastReceiver() {
@@ -19,7 +20,8 @@ class PDAScanReceiver : BroadcastReceiver() {
         when (intent.action) {
             SCAN_ACTION -> {
                 val code = intent.extras?.getString(SCAN_EXTRA_KEY) ?: return
-                SharedPrefs.sharedPreferences = context.getSharedPreferences("pda.scanner", Context.MODE_PRIVATE)
+                SharedPrefs.sharedPreferences =
+                    context.getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
                 SharedPrefs.barCode = code
             }
             else -> return

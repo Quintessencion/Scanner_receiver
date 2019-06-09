@@ -11,7 +11,7 @@
             android:theme="@style/AppTheme">
 
         <activity
-                android:name="MainActivity"
+                android:name=".ui.MainActivity"
                 android:launchMode="singleInstance"
                 android:theme="@style/Theme.Transparent">
             <intent-filter>
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="DataActivity"
+        <activity android:name=".ui.DataActivity"
                   android:launchMode="singleInstance"
                   android:theme="@style/Theme.Transparent">
             <intent-filter>

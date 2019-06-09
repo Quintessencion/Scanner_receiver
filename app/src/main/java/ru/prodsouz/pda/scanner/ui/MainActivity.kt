@@ -1,8 +1,9 @@
-package ru.prodsouz.pda.scanner
+package ru.prodsouz.pda.scanner.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import ru.prodsouz.pda.scanner.R
 
 class MainActivity : AppCompatActivity() {
 
